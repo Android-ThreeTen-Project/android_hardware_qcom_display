@@ -75,7 +75,7 @@ int IonAlloc::alloc_buffer(alloc_data& data)
 
     ionAllocData.len = data.size;
     ionAllocData.align = data.align;
-    ionAllocData.heap_mask = data.flags & ~ION_SECURE;
+    ionAllocData.heap_id_mask = data.flags & ~ION_SECURE;
     ionAllocData.flags = data.uncached ? 0 : ION_FLAG_CACHED;
     // ToDo: replace usage of alloc data structure with
     //  ionallocdata structure.
@@ -226,4 +226,3 @@ int IonAlloc::clean_buffer(void *base, size_t size, int offset, int fd, int op)
     ioctl(mIonFd, ION_IOC_FREE, &handle_data);
     return 0;
 }
-

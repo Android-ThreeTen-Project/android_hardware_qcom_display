@@ -36,10 +36,6 @@
 #include <cutils/log.h>
 #include <sys/stat.h>
 #include <comptype.h>
-#ifdef QTI_BSP
-#include <SkBitmap.h>
-#include <SkImageEncoder.h>
-#endif
 namespace qhwc {
 
 // MAX_ALLOWED_FRAMEDUMPS must be capped to (LONG_MAX - 1)
@@ -306,49 +302,12 @@ void HwcDebug::dumpLayer(size_t layerIndex, hwc_layer_1_t hwLayers[])
     }
 
     getHalPixelFormatStr(hnd->format, pixFormatStr);
-#ifdef QTI_BSP
-    if (needDumpPng && hnd->base) {
-        bool bResult = false;
-        char dumpFilename[PATH_MAX];
-        SkColorType colorType = kUnknown_SkColorType;
-        SkAlphaType alphaType = kUnknown_SkAlphaType;
-        snprintf(dumpFilename, sizeof(dumpFilename),
-            "%s/sfdump%03d.layer%d.%s.png", mDumpDirPng,
-            mDumpCntrPng, layerIndex, mDisplayName);
-
-        switch (hnd->format) {
-            case HAL_PIXEL_FORMAT_RGBA_8888:
-                alphaType = kPremul_SkAlphaType;
-                colorType = kRGBA_8888_SkColorType;
-                break;
-            case HAL_PIXEL_FORMAT_RGBX_8888:
-            case HAL_PIXEL_FORMAT_BGRA_8888:
-                alphaType = kOpaque_SkAlphaType;
-                colorType = kRGBA_8888_SkColorType;
-                break;
-            case HAL_PIXEL_FORMAT_RGB_565:
-                alphaType = kOpaque_SkAlphaType;
-                colorType = kRGB_565_SkColorType;
-                break;
-            default:
-                break;
-        }
-        if (kUnknown_SkColorType != colorType) {
-            SkImageInfo info = SkImageInfo::Make(getWidth(hnd), getHeight(hnd),
-                                                 colorType, alphaType);
-            SkPixmap pixmap(info, (const void*)hnd->base, info.minRowBytes());
-            SkFILEWStream file(dumpFilename);
-            bResult = SkEncodeImage(&file, pixmap, SkEncodedImageFormat::kPNG, 100);
-            ALOGI("Display[%s] Layer[%d] %s Dump to %s: %s",
-                mDisplayName, layerIndex, dumpLogStrPng,
-                dumpFilename, bResult ? "Success" : "Fail");
-        } else {
-            ALOGI("Display[%s] Layer[%d] %s Skipping dump: Unsupported layer"
-                " format %s for png encoder",
-                mDisplayName, layerIndex, dumpLogStrPng, pixFormatStr);
-        }
+    // The legacy Skia encoder APIs are no longer exported to vendor modules.
+    // Keep raw layer dumps available without depending on private Skia ABI.
+    if (needDumpPng) {
+        ALOGI("Display[%s] Layer[%d] %s Skipping PNG dump: unsupported",
+              mDisplayName, layerIndex, dumpLogStrPng);
     }
-#endif
     if (needDumpRaw && hnd->base) {
         char dumpFilename[PATH_MAX];
         bool bResult = false;
@@ -440,4 +399,3 @@ void HwcDebug::getHalPixelFormatStr(int format, char pixFormatStr[])
 }
 
 } // namespace qhwc
-

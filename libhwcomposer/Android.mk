@@ -18,7 +18,7 @@ ifeq ($(VSYNC_EVENT_PHASE_OFFSET_NS),)
     LOCAL_CFLAGS += -DDYNAMIC_FPS
 endif
 
-LOCAL_HEADER_LIBRARIES        := display_headers generated_kernel_headers
+LOCAL_HEADER_LIBRARIES        := $(common_headers)
 LOCAL_SRC_FILES               := hwc.cpp          \
                                  hwc_utils.cpp    \
                                  hwc_uevents.cpp  \

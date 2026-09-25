@@ -2,6 +2,7 @@ display_top := $(call my-dir)
 
 #Common libraries external to display HAL
 common_libs := liblog libutils libcutils libhardware
+common_headers := display_headers generated_kernel_headers libhardware_headers
 
 #Common C flags
 common_flags := -DDEBUG_CALC_FPS -Wno-missing-field-initializers

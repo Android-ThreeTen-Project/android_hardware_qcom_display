@@ -8,7 +8,7 @@ LOCAL_MODULE_TAGS             := optional
 LOCAL_SHARED_LIBRARIES        := $(common_libs) libui libbinder libqservice
 LOCAL_C_INCLUDES              := $(common_includes)
 LOCAL_CFLAGS                  := $(common_flags) -DLOG_TAG=\"qdutils\" -Wno-float-conversion
-LOCAL_HEADER_LIBRARIES        := display_headers generated_kernel_headers
+LOCAL_HEADER_LIBRARIES        := $(common_headers)
 LOCAL_SRC_FILES               := profiler.cpp mdp_version.cpp \
                                  idle_invalidator.cpp \
                                  comptype.cpp qd_utils.cpp \
@@ -19,7 +19,7 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 
 LOCAL_SHARED_LIBRARIES          := liblog libcutils
-LOCAL_HEADER_LIBRARIES          := display_headers generated_kernel_headers
+LOCAL_HEADER_LIBRARIES          := $(common_headers)
 LOCAL_SRC_FILES                 := qdMetaData.cpp
 LOCAL_CFLAGS                    := $(common_flags)
 LOCAL_CFLAGS                    += -DLOG_TAG=\"DisplayMetaData\"
@@ -32,7 +32,7 @@ include $(BUILD_SHARED_LIBRARY)
 # gralloc and the video decoder still require the vendor copy of this library.
 include $(CLEAR_VARS)
 LOCAL_SHARED_LIBRARIES          := liblog libcutils
-LOCAL_HEADER_LIBRARIES          := display_headers generated_kernel_headers
+LOCAL_HEADER_LIBRARIES          := $(common_headers)
 LOCAL_SRC_FILES                 := qdMetaData.cpp
 LOCAL_CFLAGS                    := $(common_flags) -DLOG_TAG=\"DisplayMetaData\"
 LOCAL_MODULE_TAGS               := optional

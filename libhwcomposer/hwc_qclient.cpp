@@ -28,6 +28,7 @@
  */
 
 #include <hwc_qclient.h>
+#include <binder/Parcel.h>
 #include <IQService.h>
 #include <hwc_utils.h>
 #include <mdp_version.h>
@@ -241,17 +242,17 @@ static void toggleDynamicDebug(hwc_context_t* ctx, const Parcel* inParcel) {
             qhwc::MDPComp::dynamicDebug(enable);
             if (debug_type != IQService::DEBUG_ALL)
                 break;
-            FALLTHROUGH_INTENDED;
+            [[fallthrough]];
         case IQService::DEBUG_VSYNC:
             ctx->vstate.debug = enable;
             if (debug_type != IQService::DEBUG_ALL)
                 break;
-            FALLTHROUGH_INTENDED;
+            [[fallthrough]];
         case IQService::DEBUG_VD:
             HWCVirtualVDS::dynamicDebug(enable);
             if (debug_type != IQService::DEBUG_ALL)
                 break;
-            FALLTHROUGH_INTENDED;
+            [[fallthrough]];
         case IQService::DEBUG_PIPE_LIFECYCLE:
             Overlay::debugPipeLifecycle(enable);
             if (debug_type != IQService::DEBUG_ALL)

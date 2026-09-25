@@ -37,5 +37,4 @@ LOCAL_SRC_FILES                 := qdMetaData.cpp
 LOCAL_CFLAGS                    := $(common_flags) -DLOG_TAG=\"DisplayMetaData\"
 LOCAL_MODULE_TAGS               := optional
 LOCAL_MODULE                    := libqdMetaData.camera
-LOCAL_MODULE_STEM               := libqdMetaData.so
 include $(BUILD_SHARED_LIBRARY)

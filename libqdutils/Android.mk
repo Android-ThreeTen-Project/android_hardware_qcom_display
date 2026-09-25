@@ -27,3 +27,15 @@ LOCAL_MODULE_TAGS               := optional
 LOCAL_MODULE                    := libqdMetaData
 LOCAL_VENDOR_MODULE             := true
 include $(BUILD_SHARED_LIBRARY)
+
+# Camera HAL is installed on system to use framework camera APIs, while
+# gralloc and the video decoder still require the vendor copy of this library.
+include $(CLEAR_VARS)
+LOCAL_SHARED_LIBRARIES          := liblog libcutils
+LOCAL_HEADER_LIBRARIES          := display_headers generated_kernel_headers
+LOCAL_SRC_FILES                 := qdMetaData.cpp
+LOCAL_CFLAGS                    := $(common_flags) -DLOG_TAG=\"DisplayMetaData\"
+LOCAL_MODULE_TAGS               := optional
+LOCAL_MODULE                    := libqdMetaData.camera
+LOCAL_MODULE_STEM               := libqdMetaData.so
+include $(BUILD_SHARED_LIBRARY)
